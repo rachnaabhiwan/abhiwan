@@ -1,75 +1,11 @@
 const express = require('express')
 const router = express.Router()
-const User = require('../models/userModel')
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
+const controller = require('../controller/usercontroller')
+// const User = require('../models/userModel')
 
-router.post('/signup', (req, res, next) =>{
-    bcrypt.hash(req.body.password, 10, (err,hash) =>{
-        if(err){
-            return res.status(500).json({
-                error: err
-            })
-        }
-        else{
-            const user = new User({
-                username : req.body.username,
-                email : req.body.email,
-                password: hash
-            })
 
-            user.save()
-            .then(result =>{
-                res.status(200).json({
-                    new_user: result
-                })
-            })
-            .catch(err =>{
-                res.status(500).json({
-                    error : err
-                })
-            })
-        }
-    })
-})
-
-router.post('/login', (req,res,next)=>{
-    User.find({username:req.body.username})
-    .exec()
-    .then(user=>{
-        if(user.length<1){
-            return res.status(401).json({
-                msg : 'user not exist'
-            })
-        }
-        bcrypt.compare(req.body.password, user[0].password, (err,result)=>{
-            if(!result){
-                return res.status(401).json({
-                    msg: 'password matching fail'
-                })
-            }
-            if(result){
-                const token = jwt.sign({
-                    username : user[0].username,
-                    email: user[0].email
-                },
-                'this is dummy text',{
-                    expiresIn:"24h"
-                });
-                res.status(200).json({
-                    username: user[0].username,
-                    email: user[0].email,
-                    token:token
-                })
-            }
-        })
-    })
-    .catch(err=>{
-        res.status(500).json({
-            err: error
-        })
-    })
-})
+router.post('/signup', controller.signup)
+router.post('/login', controller.login)
 
 
 

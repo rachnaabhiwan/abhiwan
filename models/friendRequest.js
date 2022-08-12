@@ -1,8 +1,8 @@
 const mongoose = require('mongoose')
-
-//Friends Model, using enums 
-
 const Schema = mongoose.Schema
+
+const mongoosePaginate = require('mongoose-paginate-v2')
+
 const friendSchema = mongoose.Schema({
     toState:{
         type: String
@@ -18,4 +18,5 @@ const friendSchema = mongoose.Schema({
     }
 })
 
+friendSchema.plugin(mongoosePaginate)
 module.exports = mongoose.model('Friends', friendSchema)

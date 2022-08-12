@@ -15,8 +15,10 @@ app.use(express.json())
 //const friendRouter = require('./routes/friend')
 //app.use('/friend', friendRouter)
 
-//const userRouter = require('./routes/userRoute')
-//app.use('/user', userRouter)
+const userRouter = require('./routes/userRoute')
+app.use(userRouter)
+        
+    
 
 const friendRequestRouter = require('./routes/friendrequest')
 app.use(friendRequestRouter)
