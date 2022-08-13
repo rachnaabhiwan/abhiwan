@@ -7,8 +7,26 @@ exports.join = async(req, res)=>{
             username: req.body.username,
             clanname: req.body.clanname
         })
+        if(user){
+            await user.save()
+            res.send(user)
+        }
 
     }catch(error){
-        res.send(400)
+        res.send(error)
+    }
+}
+
+exports.getdata = async(req, res)=>{
+    try{
+        const user = await Clan.findOne({
+            clanname: req.body.username
+        })
+        if(user){
+            await user.save()
+            res.send(user)
+        }
+    }catch(error){
+        res.send(error)
     }
 }

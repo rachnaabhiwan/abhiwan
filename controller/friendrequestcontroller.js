@@ -89,8 +89,8 @@ exports.friends = async (req, res) => {
 exports.getfriend = async (req, res) => {
     try {
         const { userId } = req.body
-        const friend = await Friends.find({ toId: userId })
-        res.send({success:True, friend})
+        const friend = await Friends.find({ toId:userId })
+        res.send({success:"True",friend})
 
     } catch (err) {
         res.send(err)

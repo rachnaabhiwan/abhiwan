@@ -15,16 +15,14 @@ app.use(express.json())
 //const friendRouter = require('./routes/friend')
 //app.use('/friend', friendRouter)
 
-const userRouter = require('./routes/userRoute')
-app.use(userRouter)
-        
-    
-
+const adminRouter = require('./routes/adminRoute')
+app.use(adminRouter)
+           
 const friendRequestRouter = require('./routes/friendrequest')
 app.use(friendRequestRouter)
 
-const chatRouter = require('./routes/chatRoute')
-app.use(chatRouter)
+const clanRouter = require('./routes/clanRoute')
+app.use(clanRouter)
 
 
 

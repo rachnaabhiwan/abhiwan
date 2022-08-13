@@ -1,4 +1,5 @@
-const User = require("../models/userModel")
+const User = require("../models/adminModel")
+const Friends = require("../models/friendRequest")
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
@@ -11,7 +12,7 @@ exports.signup = async(req, res, next) =>{
             return res.status(500).json({
                 error: err
             })
-        }
+        } 
         else{
             const user = new User({
                 username : req.body.username,
@@ -73,3 +74,14 @@ exports.login = async(req,res,next)=>{
 }
 
 
+exports.userStat = async(req,res)=>{
+    try{
+        const user = await Friends.find()
+        res.send(user)
+
+
+    }catch(error){
+        res.send(error)
+        
+}
+}
