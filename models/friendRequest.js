@@ -6,7 +6,7 @@ const mongoosePaginate = require('mongoose-paginate-v2')
 const friendSchema = mongoose.Schema({
     toState:{
         type: String
-    },
+    }, 
     fromState:{
         type: String
     },

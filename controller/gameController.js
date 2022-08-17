@@ -1,8 +1,9 @@
 const Friends = require("../models/friendRequest")
+const UserStats = require('../models/profileModel')
 const jwt = require('jsonwebtoken')
 
 
-//Post Api
+//Friends 
 exports.friends = async (req, res) => {
     try {
         const { status } = req.body
@@ -13,7 +14,7 @@ exports.friends = async (req, res) => {
             if (friend) {
                 const token = jwt.sign({
                     _id: 'id'
-                },
+                }, 
                     'my token is',
                     { expiresIn: '12h' })
                 res.json({ success:true, token, friend })
@@ -136,4 +137,44 @@ exports.getall = async (req, res) => {
 }
 
 
+// userStats
+
+exports.userStats = async(req, res)=>{
+    try{
+        const {winCount}=req.body
+     // const user = await UserStats({
+        //name:req.body.name,coin:req.body.coin,level:req.body.level,gems:req.body.gems,"stats.winCount":winCount})
+     const user = await UserStats(req.body)  
+     const data = await user.save()
+       // console.log(data)
+        //res.send({success: true, data}) 
+        if(data){
+            const token = jwt.sign({
+                _id:'id'
+            },
+                'my token is',
+                {expiresIn:'12h'})
+                await data.save()
+                res.json({success:true, token, data})
+        }   
+    }catch(error){
+        console.log(error);
+        res.send(error)
+    }
+}
+
+exports.userprofile = async(req, res)=>{
+    try{
+        const user = await UserStats.findOne({userId:req.body.userId})
+        if(user){
+            res.send({success: true, user})
+        }
+        else{
+            res.send('User not found')
+        }
+    }catch(error){
+        res.send(error)
+    }
+        
+}
 
