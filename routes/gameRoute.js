@@ -16,6 +16,11 @@ router.get("/userStatus", controller.userStatus)
 router.post('/userstats', controller.userStats)
 router.get('/userprofile', controller.userprofile)
 
+// Clan Management
+
+router.post('/clan',controller.clan)
+router.post('/joinclan',auth,controller.joinClan)
+
 
 
 

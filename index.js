@@ -21,8 +21,7 @@ app.use(adminRouter)
 const gameRouter = require('./routes/gameRoute')
 app.use(gameRouter)
 
-const clanRouter = require('./routes/clanRoute')
-app.use(clanRouter)
+
 
 
 
