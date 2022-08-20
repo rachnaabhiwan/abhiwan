@@ -20,6 +20,7 @@ router.get('/userprofile', controller.userprofile)
 
 router.post('/clan',controller.clan)
 router.post('/joinclan',auth,controller.joinClan)
+//router.post('/leaveclan', controller.leaveClan)
 
 
 

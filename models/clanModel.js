@@ -2,27 +2,30 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const clanSchema = mongoose.Schema({
-    userId:{
-        type:String,
-        required:true
+    userId: {
+        type: String,
+        required: true
     },
-    clanName:{
-        type:String,
-        required:true
+    clanName: {
+        type: String,
+        required: true
     },
-    clanId:{
-        type:Number,
-        required:true
-    
-    },
-    clanLeader:{
-        type:String,
-        required:true
+    clanId: {
+        type: Number,
+        required: true
 
     },
-    joinId:{
-        type:Array
-}
+    clanLeader: {
+        type: String,
+        required: true
+
+    },
+    // clanUser:[{
+    //     userId:String
+    // }],
+    joinId: {
+        type: Array
+    },
 })
 
 module.exports = mongoose.model('clan', clanSchema)

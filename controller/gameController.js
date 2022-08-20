@@ -186,7 +186,7 @@ exports.userprofile = async (req, res) => {
 
 exports.clan = async (req, res) => {
     try {
-        const clan = await Clan.findOne({ userId: req.body.userId })
+        const clan = await Clan.findOne({ clanName: req.body.clanName })
         if (clan) {
             const token = await jwt.sign({ _id: clan._id },
                 "my token is",
@@ -211,29 +211,64 @@ exports.clan = async (req, res) => {
             res.send({ success: true, token, data })
         }
     } catch (error) {
-        res.send(error)
+        res.status(404).send(error)
     }
 }
+
+
 
 exports.joinClan = async (req, res) => {
     try {
         const user = req.user
-        const id = user._id
-        
-        const clanname = await Clan.findOne({ clanName: req.body.clanName})
-         if (clanname) {
-            const data = await Clan.findOneAndUpdate({ clanName: req.body.clanName },
-                { $push: { joinId: req.body.joinId } }, { new: true })
-            await data.save()
-            //console.log(data)
-            res.send(data)
+        //console.log(user._id)
+        const value = await Clan.findOne({ _id: user._id })
+        //console.log(value)
+
+        const { status } = req.body
+        if (status == 0) {
+
+            const sameuser = await Clan.findOne({ joinId: req.body.joinId })
+            // console.log(sameuser.joinId);
+            if (sameuser) {
+                res.send(sameuser)
+            }
+            else {
+                const data = await Clan.findOneAndUpdate({ clanName: req.body.clanName },
+                    { $push: { joinId: req.body.joinId } }, { new: true })
+                await data.save()
+                //console.log(data)
+                res.send({success: true, data})
+            }
         }
-        else {
-            res.send("Clan not found")
+        if (status == 1) {
+            const data = await Clan.findOneAndUpdate({ joinId: req.body.joinId },
+                { $pull: { joinId: req.body.joinId } }, { new: true })
+            if (data) {
+                await data.save()
+                res.send({success:true, data })
+
+            }
+            else{
+                res.send({
+                    success: true,
+                    message: 'Member not found'
+                })
+            }
         }
     } catch (error) {
-        res.send(error)
+        res.status(404).send(error)
+    }
+}
 
+exports.kicked = async (req, res) => {
+    try {
+        const data = await Clan.findOneAndUpdate({ joinId: req.body.joinId },
+            { $pull: { userId: req.body.userId } }, { new: true })
+        await data.save()
+        res.send(data)
+
+    } catch (error) {
+        res.send(error)
     }
 }
 
